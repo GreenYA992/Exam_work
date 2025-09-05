@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Фото профиля -->
+            {% if user.photos.all %}
+                {% with main_photo=user.photos.filter.is_main.first %}
+                    {% if main_photo %}
+                        <img src="{{ main_photo.photo.url }}" class="img-fluid rounded" alt="Фото профиля">
+                    {% else %}
+                        <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
+                            <span class="text-muted">Нет фото</span>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            {% else %}
+                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
+                    <span class="text-muted">Нет фото</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-8">
+            <h1>Мой профиль</h1>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Основная информация</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Имя:</strong> {{ user.first_name }}</p>
+                            <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Возраст:</strong> {{ user.age }}</p>
+                            <p><strong>Город:</strong> {{ user.city }}</p>
+                            <p><strong>Пол:</strong> {{ user.get_gender_display }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Дополнительная информация</h5>
+                    <p><strong>Статус:</strong> {{ user.get_status_display }}</p>
+                    <p><strong>Увлечения:</strong></p>
+                    <p>{{ user.hobbies|linebreaks }}</p>
+                    <p><strong>Лайков:</strong> {{ user.likes_count }}</p>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a href="{% url 'profile_edit' %}" class="btn btn-primary">Редактировать профиль</a>
+                <a href="{% url 'home' %}" class="btn btn-secondary">На главную</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

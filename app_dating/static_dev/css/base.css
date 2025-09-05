@@ -1,0 +1,180 @@
+/* base.css */
+:root {
+    --primary-color: #e91e63;
+    --secondary-color: #9c27b0;
+    --success-color: #4caf50;
+    --danger-color: #f44336;
+    --warning-color: #ff9800;
+    --info-color: #2196f3;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --body-bg: #f4f6f9;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: var(--body-bg);
+    padding-top: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Навигация */
+.navbar {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+    padding: 0.5rem 1rem;
+    transition: var(--transition);
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Карточки */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    background: white;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1rem 1.5rem;
+}
+
+.card-title {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+/* Формы */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    transition: var(--transition);
+    margin-bottom: 0.5rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.25);
+}
+
+.form-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+}
+
+.form-check-label {
+    margin-bottom: 0;
+}
+
+/* Кнопки */
+.btn {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, var(--success-color), #66bb6a);
+}
+
+.btn-success:hover {
+    background: linear-gradient(45deg, #66bb6a, var(--success-color));
+    transform: translateY(-1px);
+}
+
+/* Ошибки */
+.text-danger {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    color: var(--danger-color) !important;
+}
+
+/* Футер */
+.footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}

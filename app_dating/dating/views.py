@@ -1,13 +1,12 @@
 # noinspection PyUnresolvedReferences
-from django.shortcuts import render, get_object_or_404
-# noinspection PyUnresolvedReferences
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-# noinspection PyUnresolvedReferences
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-# noinspection PyUnresolvedReferences
 from django.db.models import Q
-from .models import User, UserPhoto
-
+from django.contrib.auth import login
+from .models import User, UserPhoto, UserInteraction
+from .forms import CustomUserCreationForm, UserEditForm
 
 def home(request):
     """Главная страница с поиском и фильтрацией"""
@@ -99,3 +98,64 @@ def user_detail(request, user_id):
     }
 
     return render(request, 'dating/user_detail.html', context)
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'dating/register.html', {'form': form})
+
+@login_required
+def profile(request):
+    return render(request, 'dating/profile.html', {'user': request.user})
+
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UserEditForm(instance=request.user)
+    return render(request, 'dating/profile_edit.html', {'form': form})
+
+
+@login_required
+def interact_user(request, user_id, action):
+    """Универсальная функция для лайка/дизлайка"""
+    target_user = get_object_or_404(User, id=user_id)
+
+    if target_user == request.user:
+        messages.error(request, "Нельзя взаимодействовать с собой!")
+        return redirect('home')
+
+    # Определяем тип взаимодействия
+    if action == 'like':
+        interaction_type = 'like'
+        message = f"Вы лайкнули {target_user.first_name}"
+    elif action == 'dislike':
+        interaction_type = 'dislike'
+        message = f"Вы дизлайкнули {target_user.first_name}"
+    else:
+        messages.error(request, "Неизвестное действие")
+        return redirect('user_detail', user_id=user_id)
+
+    # Создаем или обновляем взаимодействие
+    interaction, created = UserInteraction.objects.update_or_create(
+        from_user=request.user,
+        to_user=target_user,
+        defaults={'interaction_type': interaction_type}
+    )
+
+    if created:
+        messages.success(request, message)
+    else:
+        messages.info(request, f"Вы уже {message.lower()}")
+
+    return redirect('user_detail', user_id=user_id)

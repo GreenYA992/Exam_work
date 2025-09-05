@@ -1,0 +1,88 @@
+.profile-header {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+}
+
+.profile-avatar {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.profile-info {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--card-shadow);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.info-item {
+    padding: 1rem;
+    background: var(--light-color);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.like-btn {
+    background: linear-gradient(45deg, #e91e63, #ff4081);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    border: none;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+.like-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+}
+
+.message-btn {
+    background: linear-gradient(45deg, #2196f3, #21cbf3);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    border: none;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+.message-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+}
