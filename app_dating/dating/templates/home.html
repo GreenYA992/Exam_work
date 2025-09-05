@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Найдите интересных людей</h1>
+
+    <!-- Форма поиска и фильтров -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <input type="text" name="search" class="form-control"
+                           placeholder="Имя, фамилия, город, увлечения"
+                           value="{{ search_query }}">
+                </div>
+                <div class="col-md-2">
+                    <select name="gender" class="form-select">
+                        <option value="">Все полы</option>
+                        {% for value, label in genders %}
+                            <option value="{{ value }}" {% if gender_filter == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="city" class="form-select">
+                        <option value="">Все города</option>
+                        {% for city in cities %}
+                            <option value="{{ city }}" {% if city_filter == city %}selected{% endif %}>
+                                {{ city }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="age_min" class="form-control"
+                           placeholder="Возраст от" value="{{ age_min }}">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="age_max" class="form-control"
+                           placeholder="Возраст до" value="{{ age_max }}">
+                </div>
+                <div class="col-md-2">
+                    <select name="status" class="form-select">
+                        <option value="">Все статусы</option>
+                        {% for value, label in statuses %}
+                            <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Поиск</button>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Сбросить</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Список пользователей -->
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                {% if user.main_photo %}
+                    <img src="{{ user.main_photo.photo.url }}" class="card-img-top"
+                         alt="{{ user.first_name }}" style="height: 250px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                         style="height: 250px;">
+                        <span class="text-muted">Нет фото</span>
+                    </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ user.first_name }} {{ user.last_name }}, {{ user.age }}
+                    </h5>
+                    <p class="card-text">
+                        <strong>Город:</strong> {{ user.city }}<br>
+                        <strong>Статус:</strong> {{ user.get_status_display }}<br>
+                        <strong>Пол:</strong> {{ user.get_gender_display }}
+                    </p>
+                    <p class="card-text">
+                        {{ user.hobbies|truncatewords:10 }}
+                    </p>
+                </div>
+
+                <div class="card-footer">
+                    <a href="{% url 'user_detail' user.id %}" class="btn btn-primary btn-sm">
+                        Посмотреть профиль
+                    </a>
+                    <span class="float-end">
+                        ❤️ {{ user.likes_count }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                Пользователи не найдены. Попробуйте изменить параметры поиска.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация -->
+    {% if users.has_other_pages %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if users.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Первая</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ users.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Назад</a>
+                </li>
+            {% endif %}
+
+            {% for i in users.paginator.page_range %}
+                {% if users.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if users.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ users.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Вперед</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ users.paginator.num_pages }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Последняя</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
