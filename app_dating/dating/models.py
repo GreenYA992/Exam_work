@@ -83,6 +83,16 @@ class UserPhoto(models.Model):
     def __str__(self):
         return f"Фото {self.user.email}"
 
+    def save(self, *args, **kwargs):
+        """При сохранении фото проверяем, чтобы было только одно главное фото"""
+        if self.is_main:
+            # Убираем главный статус у других фото этого пользователя
+            UserPhoto.objects.filter(
+                user=self.user,
+                is_main=True
+            ).update(is_main=False)
+        super().save(*args, **kwargs)
+
 
 class UserInteraction(models.Model):
     INTERACTION_CHOICES = [

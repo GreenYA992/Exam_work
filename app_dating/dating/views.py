@@ -1,12 +1,17 @@
 # noinspection PyUnresolvedReferences
 from django.shortcuts import render, get_object_or_404, redirect
+# noinspection PyUnresolvedReferences
 from django.contrib.auth.decorators import login_required
+# noinspection PyUnresolvedReferences
 from django.contrib import messages
+# noinspection PyUnresolvedReferences
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# noinspection PyUnresolvedReferences
 from django.db.models import Q
+# noinspection PyUnresolvedReferences
 from django.contrib.auth import login
 from .models import User, UserPhoto, UserInteraction
-from .forms import CustomUserCreationForm, UserEditForm
+from .forms import CustomUserCreationForm, UserEditForm, PhotoUploadForm
 
 def home(request):
     """Главная страница с поиском и фильтрацией"""
@@ -159,3 +164,45 @@ def interact_user(request, user_id, action):
         messages.info(request, f"Вы уже {message.lower()}")
 
     return redirect('user_detail', user_id=user_id)
+
+@login_required
+def profile(request):
+    """Страница профиля с фото"""
+    photos = UserPhoto.objects.filter(user=request.user)
+    return render(request, 'dating/profile.html', {
+        'user': request.user,
+        'photos': photos,
+        'photo_form': PhotoUploadForm()  # Форма для загрузки новых фото
+    })
+
+@login_required
+def upload_photo(request):
+    """Загрузка нового фото"""
+    if request.method == 'POST':
+        form = PhotoUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.user = request.user
+            photo.save()
+            messages.success(request, 'Фото успешно загружено!')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Ошибка при загрузке фото')
+    return redirect('profile')
+
+@login_required
+def delete_photo(request, photo_id):
+    """Удаление фото"""
+    photo = get_object_or_404(UserPhoto, id=photo_id, user=request.user)
+    photo.delete()
+    messages.success(request, 'Фото удалено')
+    return redirect('profile')
+
+@login_required
+def set_main_photo(request, photo_id):
+    """Установка фото как главного"""
+    photo = get_object_or_404(UserPhoto, id=photo_id, user=request.user)
+    photo.is_main = True
+    photo.save()
+    messages.success(request, 'Фото установлено как главное')
+    return redirect('profile')

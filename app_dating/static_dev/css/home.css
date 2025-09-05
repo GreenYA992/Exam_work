@@ -1,60 +1,68 @@
+/* ===== ГЛАВНАЯ СТРАНИЦА - ПОИСК И ФИЛЬТРЫ ===== */
+
+/* Секция поиска с градиентным фоном */
 .search-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-radius: 15px;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    color: white;                    /* Белый текст на темном фоне */
+    border-radius: 15px;             /* Сильно закругленные углы */
+    padding: 2rem;                   /* Большие внутренние отступы */
+    margin-bottom: 2rem;             /* Отступ снизу */
 }
 
+/* Сетка для карточек пользователей */
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Адаптивная сетка */
+    gap: 1.5rem;                    /* Расстояние между карточками */
+    margin: 2rem 0;                 /* Отступы сверху и снизу */
+}
+
+/* Карточка пользователя */
 .user-card {
-    transition: var(--transition);
-    border: 1px solid #eee;
+    transition: var(--transition);   /* Плавные анимации */
+    border: 1px solid #eee;          /* Легкая серая рамка */
 }
 
 .user-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);     /* Поднимаем карточку при наведении */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Усиленная тень */
 }
 
+/* Аватар пользователя */
 .user-avatar {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 8px 8px 0 0;
+    width: 100%;                     /* Занимает всю ширину */
+    height: 250px;                   /* Фиксированная высота */
+    object-fit: cover;               /* Обрезаем изображение */
+    border-radius: 8px 8px 0 0;      /* Закругляем только верх */
 }
 
+/* Статистика пользователя (лайки) */
 .user-stats {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex;                   /* Горизонтальное расположение */
+    align-items: center;             /* Выравнивание по центру */
+    gap: 10px;                       /* Расстояние между элементами */
 }
 
 .like-count {
-    color: var(--primary-color);
-    font-weight: bold;
+    color: var(--primary-color);     /* Розовый цвет для счетчика */
+    font-weight: bold;               /* Жирный шрифт */
 }
 
+/* Секция фильтров */
 .filter-section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
+    background: white;               /* Белый фон */
+    padding: 1.5rem;                 /* Внутренние отступы */
+    border-radius: 12px;             /* Закругленные углы */
+    margin-bottom: 2rem;             /* Отступ снизу */
 }
 
-/* Адаптивная сетка */
-.users-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
-}
-
+/* ===== АДАПТИВНОСТЬ ГЛАВНОЙ СТРАНИЦЫ ===== */
 @media (max-width: 768px) {
     .users-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr;  /* Одна колонка на мобильных */
     }
 
     .search-section {
-        padding: 1rem;
+        padding: 1rem;               /* Меньшие отступы */
     }
 }

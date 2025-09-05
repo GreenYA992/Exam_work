@@ -18,6 +18,9 @@ urlpatterns = [
 
     # Взаимодействия
     path('interact/<str:action>/<int:user_id>/', views.interact_user, name='interact_user'),
-    #path('like/<int:user_id>/', views.like_user, name='like_user'),
-    #path('dislike/<int:user_id>/', views.dislike_user, name='dislike_user'),
+
+    # Фото профиля
+    path('profile/photo/upload/', views.upload_photo, name='upload_photo'),
+    path('profile/photo/<int:photo_id>/delete/', views.delete_photo, name='delete_photo'),
+    path('profile/photo/<int:photo_id>/set-main/', views.set_main_photo, name='set_main_photo'),
 ]

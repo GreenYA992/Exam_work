@@ -1,0 +1,124 @@
+/* ===== СТРАНИЦА ПРОФИЛЯ ПОЛЬЗОВАТЕЛЯ ===== */
+
+/* Шапка профиля с градиентом */
+.profile-header {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;                    /* Белый текст */
+    padding: 2rem;                   /* Большие отступы */
+    border-radius: 15px;             /* Закругленные углы */
+    margin-bottom: 2rem;             /* Отступ снизу */
+}
+
+/* Основное фото профиля */
+.profile-avatar {
+    width: 100%;                     /* Адаптивная ширина */
+    max-width: 400px;                /* Максимальная ширина */
+    border-radius: 15px;             /* Закругленные углы */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Сильная тень */
+}
+
+/* Информация в профиле */
+.profile-info {
+    background: white;               /* Белый фон */
+    padding: 2rem;                   /* Внутренние отступы */
+    border-radius: 15px;             /* Закругленные углы */
+    box-shadow: var(--card-shadow);  /* Стандартная тень */
+}
+
+/* Сетка для информации */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Адаптивные колонки */
+    gap: 1rem;                       /* Расстояние между элементами */
+    margin: 1.5rem 0;                /* Отступы сверху и снизу */
+}
+
+/* Отдельный элемент информации */
+.info-item {
+    padding: 1rem;                   /* Внутренние отступы */
+    background: var(--light-color);  /* Светлый фон */
+    border-radius: 8px;              /* Закругленные углы */
+    text-align: center;              /* Центрируем текст */
+}
+
+/* Галерея фотографий */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Адаптивная сетка */
+    gap: 1rem;                       /* Расстояние между фото */
+    margin: 1.5rem 0;                /* Отступы */
+}
+
+/* Элемент галереи */
+.gallery-item {
+    border-radius: 8px;              /* Закругленные углы */
+    overflow: hidden;                 /* Обрезаем выходящее */
+    transition: var(--transition);   /* Плавная анимация */
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);          /* Увеличиваем при наведении */
+}
+
+/* Кнопки действий в профиле */
+.action-buttons {
+    display: flex;
+    gap: 1rem;                       /* Расстояние между кнопками */
+    margin: 2rem 0;                  /* Отступы */
+}
+
+/* Специальные стили для кнопок профиля */
+.like-btn {
+    background: linear-gradient(45deg, #e91e63, #ff4081);
+    color: white;                    /* Белый текст */
+    padding: 12px 24px;              /* Большие отступы */
+    border-radius: 25px;             /* Круглые кнопки */
+    border: none;                    /* Без рамки */
+    font-weight: bold;               /* Жирный шрифт */
+    transition: var(--transition);   /* Плавные анимации */
+}
+
+.like-btn:hover {
+    transform: scale(1.05);          /* Увеличиваем кнопку */
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4); /* Тень при наведении */
+}
+
+.message-btn {
+    background: linear-gradient(45deg, #2196f3, #21cbf3);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    border: none;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+.message-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+}
+
+/* стили фото-галереи */
+.img-thumbnail {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.05);
+}
+
+.photo-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.photo-actions .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}

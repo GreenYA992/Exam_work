@@ -1,180 +1,218 @@
-/* base.css */
+/* ===== ОСНОВНЫЕ ПЕРЕМЕННЫЕ И НАСТРОЙКИ ===== */
 :root {
-    --primary-color: #e91e63;
-    --secondary-color: #9c27b0;
-    --success-color: #4caf50;
-    --danger-color: #f44336;
-    --warning-color: #ff9800;
-    --info-color: #2196f3;
-    --light-color: #f8f9fa;
-    --dark-color: #212529;
-    --body-bg: #f4f6f9;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s ease;
+    /* Цветовая палитра приложения */
+    --primary-color: #e91e63;       /* Основной розовый */
+    --secondary-color: #9c27b0;     /* Вторичный фиолетовый */
+    --success-color: #4caf50;       /* Зеленый для успеха */
+    --danger-color: #f44336;        /* Красный для ошибок */
+    --warning-color: #ff9800;       /* Оранжевый для предупреждений */
+    --info-color: #2196f3;          /* Синий для информации */
+    --light-color: #f8f9fa;         /* Светлый фон */
+    --dark-color: #212529;          /* Тёмный текст */
+    --body-bg: #f4f6f9;             /* Фон всей страницы */
+
+    /* Эффекты */
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Тень карточек */
+    --transition: all 0.3s ease;                  /* Плавные переходы */
 }
 
+/* Сброс стандартных стилей браузера */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box;  /* Учитываем padding в ширине */
 }
 
+/* ===== ОСНОВНОЕ ТЕЛО СТРАНИЦЫ ===== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: var(--dark-color);
-    background-color: var(--body-bg);
-    padding-top: 20px;
+    line-height: 1.6;                /* Межстрочный интервал */
+    color: var(--dark-color);        /* Цвет текста */
+    background-color: var(--body-bg);/* Фон страницы */
+    padding-top: 20px;               /* Отступ сверху */
 }
 
+/* Контейнер для центрирования контента */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
+    max-width: 1200px;               /* Максимальная ширина */
+    margin: 0 auto;                  /* Центрирование */
+    padding: 0 15px;                 /* Отступы по бокам */
 }
 
-/* Навигация */
+/* ===== НАВИГАЦИОННАЯ ПАНЕЛЬ ===== */
 .navbar {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Легкая тень */
+    margin-bottom: 2rem;             /* Отступ снизу */
 }
 
+/* Логотип/название в навигации */
 .navbar-brand {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.5rem;               /* Крупный шрифт */
 }
 
+/* Ссылки в навигации */
 .navbar-nav .nav-link {
-    color: white !important;
-    padding: 0.5rem 1rem;
-    transition: var(--transition);
+    color: white !important;         /* Белый цвет текста */
+    padding: 0.5rem 1rem;            /* Внутренние отступы */
+    transition: var(--transition);   /* Плавный переход */
 }
 
+/* Эффект при наведении на ссылки */
 .navbar-nav .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);  /* Полупрозрачный фон */
+    border-radius: 5px;              /* Закругленные углы */
 }
 
-/* Карточки */
+/* ===== КАРТОЧКИ (ОСНОВНОЙ КОМПОНЕНТ) ===== */
 .card {
-    border: none;
-    border-radius: 12px;
-    box-shadow: var(--card-shadow);
-    transition: var(--transition);
-    background: white;
-    margin-bottom: 1.5rem;
+    border: none;                    /* Убираем стандартную рамку */
+    border-radius: 12px;             /* Закругленные углы */
+    box-shadow: var(--card-shadow);  /* Тень карточки */
+    transition: var(--transition);   /* Плавные анимации */
+    background: white;               /* Белый фон */
+    margin-bottom: 1.5rem;           /* Отступ между карточками */
 }
 
+/* Эффект при наведении на карточку */
 .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);     /* Поднимаем карточку */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Усиливаем тень */
 }
 
+/* Шапка карточки */
 .card-header {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    border-radius: 12px 12px 0 0 !important;
-    padding: 1rem 1.5rem;
+    color: white;                    /* Белый текст */
+    border-radius: 12px 12px 0 0 !important; /* Закругляем только верх */
+    padding: 1rem 1.5rem;            /* Внутренние отступы */
 }
 
+/* Заголовок внутри карточки */
 .card-title {
-    margin-bottom: 0;
-    font-weight: 600;
+    margin-bottom: 0;                /* Убираем отступ снизу */
+    font-weight: 600;                /* Полужирный шрифт */
 }
 
-/* Формы */
+/* ===== ФОРМЫ (ВВОД ДАННЫХ) ===== */
 .form-label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: var(--dark-color);
+    font-weight: 500;                /* Полужирный текст */
+    margin-bottom: 0.5rem;           /* Отступ снизу */
+    color: var(--dark-color);        /* Цвет текста */
 }
 
+/* Поля ввода и выпадающие списки */
 .form-control, .form-select {
-    border-radius: 8px;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    transition: var(--transition);
-    margin-bottom: 0.5rem;
+    border-radius: 8px;              /* Закругленные углы */
+    padding: 10px 15px;              /* Внутренние отступы */
+    border: 1px solid #ddd;          /* Серая рамка */
+    transition: var(--transition);   /* Плавные изменения */
+    margin-bottom: 0.5rem;           /* Отступ снизу */
 }
 
+/* Эффект при фокусе на поле ввода */
 .form-control:focus, .form-select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.25);
+    border-color: var(--primary-color);       /* Розовая рамка */
+    box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.25); /* Светлая тень */
 }
 
+/* Вспомогательный текст под полями */
 .form-text {
-    font-size: 0.875rem;
-    color: #6c757d;
-    margin-top: 0.25rem;
+    font-size: 0.875rem;             /* Немного меньше основного */
+    color: #6c757d;                  /* Серый цвет */
+    margin-top: 0.25rem;             /* Небольшой отступ сверху */
 }
 
+/* Чекбоксы и радиокнопки */
 .form-check-input {
-    margin-right: 0.5rem;
+    margin-right: 0.5rem;            /* Отступ справа */
 }
 
 .form-check-label {
-    margin-bottom: 0;
+    margin-bottom: 0;                /* Убираем отступ */
 }
 
-/* Кнопки */
+/* ===== КНОПКИ (ИНТЕРАКТИВНЫЕ ЭЛЕМЕНТЫ) ===== */
 .btn {
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-weight: 500;
-    transition: var(--transition);
-    border: none;
+    border-radius: 8px;              /* Закругленные углы */
+    padding: 8px 16px;               /* Внутренние отступы */
+    font-weight: 500;                /* Полужирный текст */
+    transition: var(--transition);   /* Плавные анимации */
+    border: none;                    /* Убираем рамку */
 }
 
+/* Основная кнопка (розово-фиолетовая) */
 .btn-primary {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
 }
 
 .btn-primary:hover {
     background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-    transform: translateY(-1px);
+    transform: translateY(-1px);     /* Легкое поднятие */
 }
 
+/* Кнопка успеха (зеленая) */
 .btn-success {
     background: linear-gradient(45deg, var(--success-color), #66bb6a);
 }
 
 .btn-success:hover {
     background: linear-gradient(45deg, #66bb6a, var(--success-color));
-    transform: translateY(-1px);
+    transform: translateY(-1px);     /* Легкое поднятие */
 }
 
-/* Ошибки */
+/* ===== СООБЩЕНИЯ ОБ ОШИБКАХ ===== */
 .text-danger {
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    color: var(--danger-color) !important;
+    font-size: 0.875rem;             /* Меньший размер шрифта */
+    margin-top: 0.25rem;             /* Отступ сверху */
+    color: var(--danger-color) !important; /* Красный цвет */
 }
 
-/* Футер */
+/* ===== ФУТЕР (ПОДВАЛ СТРАНИЦЫ) ===== */
 .footer {
-    background-color: var(--dark-color);
-    color: white;
-    padding: 2rem 0;
-    margin-top: 3rem;
+    background-color: var(--dark-color); /* Темный фон */
+    color: white;                    /* Белый текст */
+    padding: 2rem 0;                 /* Вертикальные отступы */
+    margin-top: 3rem;                /* Отступ сверху */
 }
 
-/* Адаптивность */
+/* ===== АДАПТИВНОСТЬ (МОБИЛЬНЫЕ УСТРОЙСТВА) ===== */
 @media (max-width: 768px) {
     .container {
-        padding: 0 10px;
+        padding: 0 10px;             /* Меньшие отступы по бокам */
     }
 
     .card {
-        margin-bottom: 1rem;
+        margin-bottom: 1rem;         /* Меньший отступ между карточками */
     }
 
     .navbar-nav {
-        text-align: center;
+        text-align: center;          /* Центрируем элементы навигации */
     }
 
     .btn {
-        width: 100%;
-        margin-bottom: 0.5rem;
+        width: 100%;                 /* Полная ширина на мобильных */
+        margin-bottom: 0.5rem;       /* Отступ между кнопками */
     }
+}
+
+/* Стили для кнопки выхода */
+.navbar-nav form {
+    display: inline;
+}
+
+.navbar-nav .btn-link {
+    border: none;
+    background: none;
+    color: inherit;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.navbar-nav .btn-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    text-decoration: none;
 }

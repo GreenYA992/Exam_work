@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, UserPhoto
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -21,4 +21,18 @@ class UserEditForm(forms.ModelForm):
                   'hobbies', 'status', 'is_private')
         widgets = {
             'hobbies': forms.Textarea(attrs={'rows': 4}),
+        }
+
+class PhotoUploadForm(forms.ModelForm):
+    class Meta:
+        model = UserPhoto
+        fields = ['photo', 'description', 'is_main']
+        widgets = {
+            'description': forms.TextInput(attrs={
+                'placeholder': 'Описание фото...',
+                'class': 'form-control'
+            }),
+            'is_main': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            })
         }

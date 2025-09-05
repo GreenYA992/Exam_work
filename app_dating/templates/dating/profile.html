@@ -1,63 +1,220 @@
 {% extends 'base.html' %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/profile.css">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
     <div class="row">
+        <!-- ЛЕВАЯ КОЛОНКА - ФОТО И ЗАГРУЗКА -->
         <div class="col-md-4">
-            <!-- Фото профиля -->
-            {% if user.photos.all %}
-                {% with main_photo=user.photos.filter.is_main.first %}
-                    {% if main_photo %}
-                        <img src="{{ main_photo.photo.url }}" class="img-fluid rounded" alt="Фото профиля">
+            <!-- БЛОК ЗАГРУЗКИ НОВОГО ФОТО -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">📸 Добавить новое фото</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'upload_photo' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="photoInput" class="form-label">Выберите фото</label>
+                            <input type="file" name="photo" class="form-control" id="photoInput"
+                                   required accept="image/*" onchange="previewImage(this)">
+                            <div class="form-text">Поддерживаются JPG, PNG, GIF</div>
+                        </div>
+
+                        <div class="mb-3 text-center" id="imagePreview" style="display: none;">
+                            <img id="preview" class="img-thumbnail preview-image">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Описание (необязательно)</label>
+                            <input type="text" name="description" class="form-control"
+                                   placeholder="Например: 'На море' или 'Любимое фото'">
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input type="checkbox" name="is_main" class="form-check-input" id="mainPhotoCheck">
+                            <label class="form-check-label" for="mainPhotoCheck">
+                                Сделать главным фото профиля
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-cloud-upload"></i> Загрузить фото
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ГАЛЕРЕЯ МОИХ ФОТО -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">🖼️ Мои фотографии</h5>
+                </div>
+                <div class="card-body">
+                    {% if photos %}
+                        <div class="row">
+                            {% for photo in photos %}
+                                <div class="col-12 mb-3">
+                                    <div class="card photo-card">
+                                        <img src="{{ photo.photo.url }}" class="card-img-top gallery-image"
+                                             alt="{{ photo.description|default:'Мое фото' }}">
+
+                                        <div class="card-body">
+                                            {% if photo.description %}
+                                                <p class="card-text photo-description">{{ photo.description }}</p>
+                                            {% endif %}
+
+                                            <div class="photo-actions">
+                                                {% if photo.is_main %}
+                                                    <span class="badge badge-main">⭐ Главное</span>
+                                                {% else %}
+                                                    <span class="badge badge-secondary">Обычное</span>
+                                                {% endif %}
+
+                                                <div class="btn-group">
+                                                    {% if not photo.is_main %}
+                                                        <a href="{% url 'set_main_photo' photo.id %}"
+                                                           class="btn btn-sm btn-outline-primary btn-action"
+                                                           title="Сделать главным">
+                                                            <i class="bi bi-star"></i>
+                                                        </a>
+                                                    {% endif %}
+
+                                                    <a href="{% url 'delete_photo' photo.id %}"
+                                                       class="btn btn-sm btn-outline-danger btn-action"
+                                                       onclick="return confirm('Удалить это фото?')"
+                                                       title="Удалить">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     {% else %}
-                        <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
-                            <span class="text-muted">Нет фото</span>
+                        <div class="empty-gallery">
+                            <i class="bi bi-image empty-icon"></i>
+                            <p class="empty-text">Нет загруженных фотографий</p>
+                            <small class="empty-subtext">Загрузите первое фото выше</small>
                         </div>
                     {% endif %}
-                {% endwith %}
-            {% else %}
-                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
-                    <span class="text-muted">Нет фото</span>
                 </div>
-            {% endif %}
+            </div>
         </div>
 
+        <!-- ПРАВАЯ КОЛОНКА - ИНФОРМАЦИЯ ПРОФИЛЯ -->
         <div class="col-md-8">
-            <h1>Мой профиль</h1>
+            <div class="profile-header">
+                <h1>👤 Мой профиль</h1>
+                <div class="header-actions">
+                    <a href="{% url 'profile_edit' %}" class="btn btn-primary">
+                        <i class="bi bi-pencil"></i> Редактировать
+                    </a>
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-house"></i> На главную
+                    </a>
+                </div>
+            </div>
 
+            <!-- ОСНОВНАЯ ИНФОРМАЦИЯ -->
             <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">📋 Основная информация</h5>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Основная информация</h5>
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>Имя:</strong> {{ user.first_name }}</p>
-                            <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
-                            <p><strong>Email:</strong> {{ user.email }}</p>
+                            <p><strong>👤 Имя:</strong> {{ user.first_name }}</p>
+                            <p><strong>👥 Фамилия:</strong> {{ user.last_name }}</p>
+                            <p><strong>📧 Email:</strong> {{ user.email }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Возраст:</strong> {{ user.age }}</p>
-                            <p><strong>Город:</strong> {{ user.city }}</p>
-                            <p><strong>Пол:</strong> {{ user.get_gender_display }}</p>
+                            <p><strong>🎂 Возраст:</strong> {{ user.age }} лет</p>
+                            <p><strong>🏙️ Город:</strong> {{ user.city }}</p>
+                            <p><strong>🚻 Пол:</strong> {{ user.get_gender_display }}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ -->
             <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">💫 Дополнительная информация</h5>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Дополнительная информация</h5>
-                    <p><strong>Статус:</strong> {{ user.get_status_display }}</p>
-                    <p><strong>Увлечения:</strong></p>
-                    <p>{{ user.hobbies|linebreaks }}</p>
-                    <p><strong>Лайков:</strong> {{ user.likes_count }}</p>
+                    <p><strong>📊 Статус:</strong>
+                        <span class="badge badge-info">{{ user.get_status_display }}</span>
+                    </p>
+
+                    <p><strong>❤️ Лайков:</strong>
+                        <span class="badge badge-likes">{{ user.likes_count }}</span>
+                    </p>
+
+                    <p><strong>🎯 Увлечения:</strong></p>
+                    <div class="hobbies-container">
+                        {{ user.hobbies|linebreaks|default:"<span class='text-muted'>Не указано</span>" }}
+                    </div>
+
+                    <p class="mt-3"><strong>🔒 Приватность:</strong>
+                        {% if user.is_private %}
+                            <span class="badge badge-private">Приватный профиль</span>
+                        {% else %}
+                            <span class="badge badge-public">Публичный профиль</span>
+                        {% endif %}
+                    </p>
                 </div>
             </div>
 
-            <div class="d-flex gap-2">
-                <a href="{% url 'profile_edit' %}" class="btn btn-primary">Редактировать профиль</a>
-                <a href="{% url 'home' %}" class="btn btn-secondary">На главную</a>
+            <!-- СТАТИСТИКА АККАУНТА -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">📈 Статистика аккаунта</h5>
+                </div>
+                <div class="card-body">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">{{ photos.count }}</div>
+                            <div class="stat-label">Фотографий</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">{{ user.likes_count }}</div>
+                            <div class="stat-label">Лайков</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-date">{{ user.date_joined|date:"d.m.Y" }}</div>
+                            <div class="stat-label">Дата регистрации</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+function previewImage(input) {
+    const preview = document.getElementById('preview');
+    const previewContainer = document.getElementById('imagePreview');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            previewContainer.style.display = 'block';
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        previewContainer.style.display = 'none';
+    }
+}
+</script>
 {% endblock %}
